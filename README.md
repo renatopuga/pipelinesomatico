@@ -40,6 +40,16 @@ chr1	114716123	C	T
 chr9	5073770	G	T
 ```
 
+**Download do arquivo `.zip`**
+
+Total de 4 arquivos de resultado:
+
+> A definição de cada arquivo pelo CGI (ver no site)
+1. alterations.tsv: ...
+2. biomarkers.tsv: ...
+3. input01.tsv: ...
+4. summary.txt: ...
+
 **Visualizar a tabela `alterations.tsv`**
 
 Instalar a lib pandas
