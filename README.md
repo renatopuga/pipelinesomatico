@@ -44,7 +44,7 @@ chr9	5073770	G	T
 
 ```python
 import requests
-headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+headers = {'Authorization': 'renatopuga@gmail.com {SEU_TOKEN}'}
 payload = {'cancer_type': 'HEMATO', 'title': 'Somatic MF WP048', 'reference': 'hg38'}
 r = requests.post('https://www.cancergenomeinterpreter.org/api/v1',
                 headers=headers,
@@ -66,7 +66,7 @@ ea324a9c29a5e6ef4d55
 import requests
 job_id ="ea324a9c29a5e6ef4d55"
 
-headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+headers = {'Authorization': 'renatopuga@gmail.com {SEU_TOKEN}'}
 r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers)
 r.json()
 ```
@@ -89,7 +89,7 @@ output:
 import requests
 job_id ="ea324a9c29a5e6ef4d55"
 
-headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+headers = {'Authorization': 'renatopuga@gmail.com {SEU_TOKEN}'}
 payload={'action':'logs'}
 r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
 r.json()
@@ -134,7 +134,7 @@ mkdir -p results/WP048
 import requests
 job_id ="ea324a9c29a5e6ef4d55"
 
-headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+headers = {'Authorization': 'renatopuga@gmail.com {SEU_TOKEN}'}
 payload={'action':'download'}
 r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
 with open('/content/results/WP048/WP048-cgi.zip', 'wb') as fd:
