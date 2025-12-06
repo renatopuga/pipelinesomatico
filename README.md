@@ -40,6 +40,80 @@ chr1	114716123	C	T
 chr9	5073770	G	T
 ```
 
+**Enviar job para CGI API**
+
+```python
+import requests
+headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+payload = {'cancer_type': 'HEMATO', 'title': 'Somatic MF WP048', 'reference': 'hg38'}
+r = requests.post('https://www.cancergenomeinterpreter.org/api/v1',
+                headers=headers,
+                files={
+                        'mutations': open('/content/df_WP048-cgi.txt', 'rb')
+                        },
+                data=payload)
+r.json()
+```
+
+output:
+```
+ea324a9c29a5e6ef4d55
+```
+
+**Status do JobID**
+
+```python
+import requests
+job_id ="ea324a9c29a5e6ef4d55"
+
+headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers)
+r.json()
+```
+
+output:
+```
+{'status': 'Done',
+ 'metadata': {'id': 'ea324a9c29a5e6ef4d55',
+  'user': 'renatopuga@gmail.com',
+  'title': 'Somatic MF WP048',
+  'cancertype': 'HEMATO',
+  'reference': 'hg38',
+  'dataset': 'input.tsv',
+  'date': '2025-12-06 14:05:15'}}
+```
+
+**Log Completo do JobID**
+
+```python
+import requests
+job_id ="ea324a9c29a5e6ef4d55"
+
+headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+payload={'action':'logs'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
+r.json()
+```
+
+output:
+```
+{'status': 'Done',
+ 'logs': ['# cgi analyze input.tsv -c HEMATO -g hg38',
+  '2025-12-06 15:05:19,322 INFO     Parsing input01.tsv\n',
+  '2025-12-06 15:05:23,170 INFO     Running VEP\n',
+  '2025-12-06 15:05:24,089 INFO     Check cancer genes and consensus roles\n',
+  '2025-12-06 15:05:24,177 INFO     Annotate BoostDM mutations\n',
+  '2025-12-06 15:05:24,218 INFO     Annotate OncodriveMUT mutations\n',
+  '2025-12-06 15:05:26,668 INFO     Annotate validated oncogenic mutations\n',
+  '2025-12-06 15:05:26,826 INFO     Check oncogenic classification\n',
+  '2025-12-06 15:05:26,892 INFO     Matching biomarkers\n',
+  '2025-12-06 15:05:26,989 INFO     Prescription finished\n',
+  '2025-12-06 15:05:27,003 INFO     Aggregate metrics\n',
+  '2025-12-06 15:05:29,952 INFO     Compress output files\n',
+  '2025-12-06 15:05:30,013 INFO     Analysis done\n']}
+
+```
+
 **Download do arquivo `.zip`**
 
 Total de 4 arquivos de resultado:
@@ -49,6 +123,35 @@ Total de 4 arquivos de resultado:
 2. biomarkers.tsv: ...
 3. input01.tsv: ...
 4. summary.txt: ...
+
+```bash
+%%bash
+# criar o diretorio com o ID da amostra dentro de results
+mkdir -p results/WP048
+```
+
+```python
+import requests
+job_id ="ea324a9c29a5e6ef4d55"
+
+headers = {'Authorization': 'renatopuga@gmail.com f3c4d7630ac204bf0b86'}
+payload={'action':'download'}
+r = requests.get('https://www.cancergenomeinterpreter.org/api/v1/%s' % job_id, headers=headers, params=payload)
+with open('/content/results/WP048/WP048-cgi.zip', 'wb') as fd:
+    fd.write(r._content)
+```
+
+```bash
+!unzip /content/results/WP048/WP048-cgi.zip -d /content/results/WP048/
+```
+
+```
+Archive:  /content/results/WP048/WP048-cgi.zip
+  inflating: /content/results/WP048/alterations.tsv  
+  inflating: /content/results/WP048/biomarkers.tsv  
+  inflating: /content/results/WP048/input01.tsv  
+  inflating: /content/results/WP048/summary.txt  
+```
 
 **Visualizar a tabela `alterations.tsv`**
 
