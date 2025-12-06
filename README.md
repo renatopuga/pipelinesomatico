@@ -40,5 +40,12 @@ chr1	114716123	C	T
 chr9	5073770	G	T
 ```
 
+## Anexo
+
+Como criar uma tabela mais complexa em MarkDown
+
+- https://www.tablesgenerator.com/markdown_tables
+
+
 
 
